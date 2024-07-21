@@ -1,7 +1,7 @@
 package main
 
 import (
-	"auth-methods/middleware/token"
+	token "auth-methods/token"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"

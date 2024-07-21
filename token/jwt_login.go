@@ -1,6 +1,7 @@
 package token
 
 import (
+	"auth-methods/request"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -27,8 +28,8 @@ func UserLoginWithJWT(rw http.ResponseWriter, r *http.Request) {
 	rw.Header().Set("Authorization", fmt.Sprintf("Bearer %s", token))
 }
 
-func decodeUser(req *http.Request) (UserRequest, error) {
-	var user UserRequest
+func decodeUser(req *http.Request) (request.UserRequest, error) {
+	var user request.UserRequest
 	err := json.NewDecoder(req.Body).Decode(&user)
 	if err != nil || user.Email == "" || user.Password == "" {
 		return user, errors.New("invalid")
