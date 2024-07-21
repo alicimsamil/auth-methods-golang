@@ -22,7 +22,7 @@ func main() {
 
 	//Token based authentication
 	router.HandleFunc("/token-main", token.JWTAuthMiddleware(greetings))
-	router.HandleFunc("/jwt-login", token.UserLoginWithJWT).Methods(http.MethodPost)
+	router.HandleFunc("/token-login", token.UserLoginWithJWT).Methods(http.MethodPost)
 
 	//Session based authentication
 	router.HandleFunc("/session-main", session.SessionAuthMiddleware(greetings))
