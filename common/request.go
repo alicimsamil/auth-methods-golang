@@ -1,4 +1,4 @@
-package request
+package common
 
 type UserRequest struct {
 	Email    string `json:"email"`

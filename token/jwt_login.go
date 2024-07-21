@@ -1,9 +1,7 @@
 package token
 
 import (
-	"auth-methods/request"
-	"encoding/json"
-	"errors"
+	"auth-methods/common"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
@@ -11,7 +9,7 @@ import (
 )
 
 func UserLoginWithJWT(rw http.ResponseWriter, r *http.Request) {
-	user, err := decodeUser(r)
+	user, err := common.DecodeUser(r)
 	if err != nil {
 		http.Error(rw, "entity is not processable", http.StatusUnprocessableEntity)
 		return
@@ -26,15 +24,6 @@ func UserLoginWithJWT(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	rw.Header().Set("Authorization", fmt.Sprintf("Bearer %s", token))
-}
-
-func decodeUser(req *http.Request) (request.UserRequest, error) {
-	var user request.UserRequest
-	err := json.NewDecoder(req.Body).Decode(&user)
-	if err != nil || user.Email == "" || user.Password == "" {
-		return user, errors.New("invalid")
-	}
-	return user, nil
 }
 
 func createJWTToken(email string) (string, error) {

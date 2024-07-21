@@ -1,6 +1,8 @@
 package main
 
 import (
+	"auth-methods/basic"
+	"auth-methods/session"
 	token "auth-methods/token"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -15,10 +17,16 @@ func main() {
 		fmt.Fprintln(w, "Hi there")
 	}
 
-	//router.HandleFunc("/", basic.BasicAuthMiddleWare(greetings))
+	//Basic authentication
+	router.HandleFunc("/basic-main", basic.BasicAuthMiddleWare(greetings))
 
-	router.HandleFunc("/", token.JWTAuthMiddleware(greetings))
+	//Token based authentication
+	router.HandleFunc("/token-main", token.JWTAuthMiddleware(greetings))
 	router.HandleFunc("/jwt-login", token.UserLoginWithJWT).Methods(http.MethodPost)
+
+	//Session based authentication
+	router.HandleFunc("/session-main", session.SessionAuthMiddleware(greetings))
+	router.HandleFunc("/session-login", session.UserLoginWithSession).Methods(http.MethodPost)
 
 	log.Fatal(http.ListenAndServe(":80", router))
 }
